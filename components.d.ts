@@ -13,6 +13,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElImage: typeof import('element-plus/es')['ElImage']
+    ElResult: typeof import('element-plus/es')['ElResult']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     ReloadPrompt: typeof import('./src/components/ReloadPrompt.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -22,9 +24,11 @@ declare module 'vue' {
 
 // For TSX support
 declare global {
-  const ElButton: typeof import('element-plus/es')['ElButton']
-  const HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-  const ReloadPrompt: typeof import('./src/components/ReloadPrompt.vue')['default']
-  const RouterLink: typeof import('vue-router')['RouterLink']
-  const RouterView: typeof import('vue-router')['RouterView']
+  const ElButton: (typeof import('element-plus/es'))['ElButton']
+  const ElImage: (typeof import('element-plus/es'))['ElImage']
+  const ElResult: (typeof import('element-plus/es'))['ElResult']
+  const HelloWorld: (typeof import('./src/components/HelloWorld.vue'))['default']
+  const ReloadPrompt: (typeof import('./src/components/ReloadPrompt.vue'))['default']
+  const RouterLink: (typeof import('vue-router'))['RouterLink']
+  const RouterView: (typeof import('vue-router'))['RouterView']
 }
