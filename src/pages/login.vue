@@ -15,18 +15,39 @@
 </template>
 
 <script lang="ts" setup>
+definePage({
+  name: 'login',
+  meta: {
+    requiresAuth: false,
+  },
+})
 import LoginBrand from '../components/LoginBrand.vue'
 import LoginForm from '../components/LoginForm.vue'
+import { login } from '../api/login'
 
+import { ElMessage } from 'element-plus'
+import { useAuthStore } from '@/stores/index.ts'
+const AuthStore = useAuthStore()
+
+const router = useRouter()
 const loading = ref(false)
 
 // 登录处理，后续接入 API
-const handleLogin = async (data: { username: string; password: string }) => {
-  console.log('登录信息：', data)
+const handleLogin = async (formdata: { username: string; password: string }) => {
   loading.value = true
-  setTimeout(() => {
+  try {
+    const result = await login(formdata)
+    const { code, message, token } = result
+    if (code === 200) {
+      AuthStore.setisLogin(true)
+      AuthStore.setToken(token as string)
+      router.push('/')
+    } else {
+      ElMessage.error(message)
+    }
+  } finally {
     loading.value = false
-  }, 2000)
+  }
 }
 </script>
 

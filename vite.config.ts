@@ -60,6 +60,16 @@ export default defineConfig({
       enable: true,
     }),
   ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://shopadmin.dishawang.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
+
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

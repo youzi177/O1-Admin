@@ -7,6 +7,7 @@ import router from './router'
 import 'virtual:uno.css'
 // import '@unocss/reset/normalize.css'
 import '@unocss/reset/tailwind.css'
+import 'element-plus/dist/index.css'
 const app = createApp(App)
 
 app.use(createPinia())
