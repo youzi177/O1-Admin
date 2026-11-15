@@ -16,16 +16,16 @@ router.beforeEach((to) => {
   // 判断目标路由及其父级路由是否需要登录
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
 
-  // 不需要登录，直接放行
-  if (!requiresAuth) {
-    return true
-  }
-
-  // 没有 Token，清理登录状态并跳转登录页
+  // 没有 Token
   if (!token) {
     authStore.setToken('')
     authStore.setisLogin(false)
-    return { name: 'login' }
+
+    if (requiresAuth) {
+      return { name: 'login' }
+    }
+
+    return true
   }
 
   try {
@@ -41,6 +41,11 @@ router.beforeEach((to) => {
     authStore.setToken(token)
     authStore.setisLogin(true)
 
+    // 已登录用户禁止进入登录页
+    if (to.name === 'login') {
+      return { name: 'index' }
+    }
+
     return true
   } catch (error) {
     console.error('Token 验证失败：', error)
@@ -49,7 +54,11 @@ router.beforeEach((to) => {
     authStore.setisLogin(false)
     localStorage.removeItem('token')
 
-    return { name: 'login' }
+    if (requiresAuth) {
+      return { name: 'login' }
+    }
+
+    return true
   }
 })
 

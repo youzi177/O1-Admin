@@ -9,6 +9,7 @@ definePage({
     requiresAuth: true,
   },
 })
+
 import { useAuthStore } from '@/stores/index.ts'
 const AuthStore = useAuthStore()
 const token = AuthStore.token
