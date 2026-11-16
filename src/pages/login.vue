@@ -26,8 +26,9 @@ import LoginForm from '../components/LoginForm.vue'
 import { login } from '../api/login'
 
 import { ElMessage } from 'element-plus'
-import { useAuthStore } from '@/stores/index.ts'
+import { useAuthStore, useUserStore } from '@/stores/index.ts'
 const AuthStore = useAuthStore()
+const UserStore = useUserStore()
 
 const router = useRouter()
 const loading = ref(false)
@@ -37,10 +38,16 @@ const handleLogin = async (formdata: { username: string; password: string }) => 
   loading.value = true
   try {
     const result = await login(formdata)
-    const { code, message, token } = result
+    const { code, message, token, data } = result
     if (code === 200) {
+      if (data.status !== '0') {
+        ElMessage.error('账号被禁用，请联系管理员')
+        return
+      }
       AuthStore.setisLogin(true)
       AuthStore.setToken(token as string)
+      UserStore.setUserInfo(data)
+
       router.push('/')
     } else {
       ElMessage.error(message)
