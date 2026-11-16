@@ -23,6 +23,7 @@
 
     <!-- 右侧：功能按钮和用户菜单 -->
     <div class="header-right">
+      <O1ThemeSwitch />
       <!-- 全屏按钮：手机端隐藏 -->
       <el-tooltip content="全屏" placement="bottom">
         <button class="icon-btn fullscreen-btn" type="button">
@@ -93,9 +94,17 @@ const userInfo = computed(() => {
 
   height: var(--header-height);
   padding: 0 16px 0 0;
-  color: #fff;
-  background: #626aef;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+
+  /* 使用 O1 全局主题变量 */
+  color: var(--o1-text-primary);
+  background: var(--o1-bg-container);
+  border-bottom: 1px solid var(--o1-border-color);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 5%);
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 /* ==================== 左侧区域 ==================== */
@@ -112,6 +121,7 @@ const userInfo = computed(() => {
   @apply flex justify-center items-center h-full text-2xl font-bold;
 
   letter-spacing: 0.5px;
+  color: var(--o1-primary);
 }
 
 /* 左侧快捷操作按钮 */
@@ -128,27 +138,34 @@ const userInfo = computed(() => {
   height: 40px;
   margin: 0 4px;
   padding: 0;
+
   border: none;
   border-radius: 8px;
-  color: inherit;
+
+  color: var(--o1-text-secondary);
   background: transparent;
+
   font-size: 20px;
   cursor: pointer;
-  transition: background-color 0.2s;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .icon-btn:hover {
-  background: rgb(255 255 255 / 15%);
+  color: var(--o1-text-primary);
+  background: var(--o1-bg-hover);
 }
 
 .icon-btn:active {
-  background: rgb(255 255 255 / 25%);
+  background: var(--o1-border-color);
 }
 
 /* 键盘访问时保留清晰的焦点提示 */
 .icon-btn:focus-visible,
 .user-trigger:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--o1-primary);
   outline-offset: 2px;
 }
 
@@ -166,19 +183,21 @@ const userInfo = computed(() => {
   height: 40px;
   padding: 0 10px;
   gap: 8px;
-  color: #fff;
+
+  color: var(--o1-text-primary);
   background: transparent;
   border: none;
   border-radius: 8px;
+
   cursor: pointer;
   font-size: 14px;
 }
 
-/* 移除按钮默认 hover、focus 背景效果 */
+/* 用户信息区域保持透明，不添加按钮式 Hover 效果 */
 .user-trigger:hover,
 .user-trigger:focus,
 .user-trigger:active {
-  color: #fff;
+  color: var(--o1-text-primary);
   background: transparent;
   outline: none;
 }
@@ -187,26 +206,14 @@ const userInfo = computed(() => {
 .username {
   max-width: 120px;
   overflow: hidden;
-  color: #fff;
+  color: var(--o1-text-primary);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 /* 下拉箭头 */
 .arrow-icon {
-  color: #fff;
-  font-size: 14px;
-}
-
-/* 用户名过长时显示省略号 */
-.username {
-  max-width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.arrow-icon {
+  color: var(--o1-text-secondary);
   font-size: 14px;
 }
 

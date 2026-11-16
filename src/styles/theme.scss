@@ -1,0 +1,40 @@
+:root {
+  color-scheme: light;
+
+  // 品牌色
+  --o1-color-primary: #4775e8;
+
+  // 背景色
+  --o1-bg-color: #f5f7fa;
+  --o1-bg-container: #ffffff;
+  --o1-bg-hover: #f2f3f5;
+
+  // 文字颜色
+  --o1-text-primary: #303133;
+  --o1-text-secondary: #606266;
+  --o1-text-placeholder: #a8abb2;
+
+  // 边框
+  --o1-border-color: #e4e7ed;
+
+  // 阴影
+  --o1-box-shadow: 0 2px 8px rgb(0 0 0 / 5%);
+}
+
+html.dark {
+  color-scheme: dark;
+
+  --o1-color-primary: #6d91f2;
+
+  --o1-bg-color: #18181c;
+  --o1-bg-container: #242429;
+  --o1-bg-hover: #303036;
+
+  --o1-text-primary: #e5eaf3;
+  --o1-text-secondary: #a3a6ad;
+  --o1-text-placeholder: #737780;
+
+  --o1-border-color: #414148;
+
+  --o1-box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+}

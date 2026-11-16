@@ -1,0 +1,15 @@
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: var(--o1-bg-color);
+  color: var(--o1-text-primary);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
