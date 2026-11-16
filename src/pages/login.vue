@@ -67,7 +67,7 @@ const handleLogin = async (formdata: { username: string; password: string }) => 
 
 .login-container {
   min-height: 100vh;
-  background: #fff;
+  background: var(--o1-bg-layout);
 }
 
 .login-brand {
@@ -79,7 +79,7 @@ const handleLogin = async (formdata: { username: string; password: string }) => 
 .login-panel {
   --at-apply: flex items-center justify-center;
   padding: 40px 24px;
-  background: #fff;
+  background: var(--o1-bg-container);
 }
 
 @media (max-width: 767px) {

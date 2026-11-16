@@ -92,26 +92,28 @@ const onSubmit = async () => {
 }
 
 .login-title {
-  --at-apply: text-3xl font-bold text-gray-800;
+  --at-apply: text-3xl font-bold;
   margin-bottom: 12px;
+  color: var(--o1-text-primary);
 }
 
 .login-subtitle {
-  --at-apply: text-sm text-gray-400;
+  --at-apply: text-sm;
   margin-bottom: 36px;
+  color: var(--o1-text-secondary);
 }
 
 .login-divider {
   --at-apply: flex items-center justify-center gap-3;
   margin-bottom: 28px;
-  color: #a1a1aa;
+  color: var(--o1-text-secondary);
   font-size: 13px;
 
   span:first-child,
   span:last-child {
     flex: 1;
     height: 1px;
-    background: #e5e7eb;
+    background: var(--o1-border-color);
   }
 }
 
@@ -122,7 +124,7 @@ const onSubmit = async () => {
 .input-icon {
   width: 18px;
   height: 18px;
-  color: #9ca3af;
+  color: var(--o1-text-secondary);
 }
 
 .login-button {
@@ -131,17 +133,32 @@ const onSubmit = async () => {
   margin-top: 8px;
   border: none;
   border-radius: 6px;
-  background: #626aef;
   font-size: 15px;
 
-  &:hover {
-    background: #5158d8;
-  }
+  // 正常状态
+  --el-button-bg-color: var(--o1-color-primary);
+  --el-button-border-color: var(--o1-color-primary);
+  --el-button-text-color: #fff;
+
+  // Hover 状态
+  --el-button-hover-bg-color: var(--o1-color-primary-hover);
+  --el-button-hover-border-color: var(--o1-color-primary-hover);
+  --el-button-hover-text-color: #fff;
+
+  // Active 状态
+  --el-button-active-bg-color: var(--o1-color-primary-hover);
+  --el-button-active-border-color: var(--o1-color-primary-hover);
+  --el-button-active-text-color: #fff;
+
+  // 禁用状态
+  --el-button-disabled-bg-color: var(--o1-color-primary);
+  --el-button-disabled-border-color: var(--o1-color-primary);
+  --el-button-disabled-text-color: #fff;
 }
 
 .login-footer {
   margin-top: 48px;
-  color: #a1a1aa;
+  color: var(--o1-text-secondary);
   font-size: 12px;
   text-align: center;
 }

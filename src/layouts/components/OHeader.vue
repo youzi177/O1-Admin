@@ -32,7 +32,11 @@
       </el-tooltip>
 
       <!-- 用户信息：桌面端 hover，移动端 click -->
-      <el-dropdown class="dropdown" :trigger="isMobile ? 'click' : 'hover'">
+      <el-dropdown
+        class="dropdown"
+        :trigger="isMobile ? 'click' : 'hover'"
+        @command="handleCommand"
+      >
         <button class="user-trigger" type="button">
           <el-avatar :size="28" :src="userInfo.avatar" />
           <span class="username">{{ userInfo.username }}</span>
@@ -41,8 +45,8 @@
 
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>修改密码</el-dropdown-item>
-            <el-dropdown-item divided>退出登录</el-dropdown-item>
+            <el-dropdown-item command="rePassord">修改密码</el-dropdown-item>
+            <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -51,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/stores'
+import { useAuthStore, useUserStore } from '@/stores'
 
 const UserStore = useUserStore()
 
@@ -81,6 +85,40 @@ const userInfo = computed(() => {
     }
   )
 })
+const router = useRouter()
+const AuthStore = useAuthStore()
+const logout = () => {
+  ElMessageBox.confirm('是否退出登录', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(() => {
+      localStorage.removeItem('token')
+      localStorage.removeItem('userinfo')
+
+      // 清空 Pinia 中的用户信息
+      UserStore.clearUserInfo()
+      AuthStore.setisLogin(false)
+      AuthStore.setToken('')
+      //跳转到首页
+      router.push({ name: 'login' })
+    })
+    .catch(() => {
+      // catch error
+    })
+}
+// 头像下拉框事件：修改密码、退出登录
+const handleCommand = (c: string) => {
+  switch (c) {
+    case 'rePassord':
+      console.log('正在开发')
+      break
+    case 'logout':
+      logout()
+      break
+  }
+}
 </script>
 
 <style scoped>

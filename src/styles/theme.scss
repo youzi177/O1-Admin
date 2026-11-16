@@ -2,7 +2,8 @@
   color-scheme: light;
 
   // 品牌色
-  --o1-color-primary: #4775e8;
+  --o1-color-primary: #626aef;
+  --o1-color-primary-hover: #5158d8;
 
   // 背景色
   --o1-bg-color: #f5f7fa;
@@ -25,7 +26,7 @@ html.dark {
   color-scheme: dark;
 
   --o1-color-primary: #6d91f2;
-
+  --o1-color-primary-hover: #5158d8;
   --o1-bg-color: #18181c;
   --o1-bg-container: #242429;
   --o1-bg-hover: #303036;
