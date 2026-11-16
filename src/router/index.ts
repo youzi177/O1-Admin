@@ -5,6 +5,7 @@ import { useAuthStore, useUserStore } from '@/stores'
 import { jwtDecode } from 'jwt-decode'
 import { getInfo } from '@/api/login'
 import type { HttpResponse } from '@/types/api/login'
+import { doneProgress, startProgress } from '@/utils/progress'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,6 +13,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
+  startProgress()
   const authStore = useAuthStore()
   const userStore = useUserStore()
   const token = localStorage.getItem('token')
@@ -74,6 +76,13 @@ router.beforeEach(async (to) => {
 
     return true
   }
+})
+// 全局的loging
+router.afterEach(() => {
+  doneProgress()
+})
+router.onError(() => {
+  doneProgress()
 })
 
 // 这将在运行时更新路由而无需重新加载页面

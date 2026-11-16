@@ -2,10 +2,12 @@ import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'a
 import { errorHandle } from './errorHandle'
 import publicConfig from '@/config'
 import { useAuthStore } from '@/stores'
+import { doneProgress, startProgress } from '../progress'
 export function setupInterceptors(instance: AxiosInstance) {
   //请求拦截器
   instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
+      startProgress()
       let isPublic = false
       publicConfig.publicPath.map((path) => {
         isPublic = isPublic || path.test(config.url || '')
@@ -18,14 +20,19 @@ export function setupInterceptors(instance: AxiosInstance) {
       }
       return config
     },
-    (error) => Promise.reject(error),
+    (error) => {
+      doneProgress()
+      Promise.reject(error)
+    },
   )
   //响应拦截器
   instance.interceptors.response.use(
     (response: AxiosResponse) => {
+      doneProgress()
       return response.data
     },
     (error) => {
+      doneProgress()
       errorHandle(error)
       return Promise.reject(error)
     },
