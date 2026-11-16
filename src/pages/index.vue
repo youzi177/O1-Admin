@@ -9,6 +9,7 @@ definePage({
   name: 'index',
   meta: {
     requiresAuth: true,
+    title: '后台管理系统首页',
   },
 })
 import { useAuthStore, useUserStore } from '@/stores/index.ts'

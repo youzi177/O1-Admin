@@ -19,6 +19,7 @@ definePage({
   name: 'login',
   meta: {
     requiresAuth: false,
+    title: '登录',
   },
 })
 import LoginBrand from '../components/LoginBrand.vue'

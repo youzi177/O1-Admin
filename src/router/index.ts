@@ -14,6 +14,9 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   startProgress()
+  // 动态标题
+  const title = (to.meta.title ? to.meta.title : '') + '-O1 Admin'
+  document.title = title
   const authStore = useAuthStore()
   const userStore = useUserStore()
   const token = localStorage.getItem('token')
