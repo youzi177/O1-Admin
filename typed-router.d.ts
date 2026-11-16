@@ -30,8 +30,8 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     index: RouteRecordInfo<'index', '/', Record<never, never>, Record<never, never>, never>
-    '/[...path]': RouteRecordInfo<
-      '/[...path]',
+    '404': RouteRecordInfo<
+      '404',
       '/:path(.*)',
       { path: ParamValue<true> },
       { path: ParamValue<false> },
@@ -58,7 +58,7 @@ declare module 'vue-router/auto-routes' {
       pathParamNames: never
     }
     'src/pages/[...path].vue': {
-      routes: '/[...path]'
+      routes: '404'
       views: never
       pathParamNames: 'path'
     }
