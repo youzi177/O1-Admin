@@ -24,18 +24,27 @@ router.beforeEach(async (to) => {
   if (!token) {
     authStore.setToken('')
     authStore.setisLogin(false)
-
     if (requiresAuth) {
       return { name: 'login' }
     }
-
     return true
   }
-
+  // 有Token
   try {
     // 解码 JWT
     const payload = jwtDecode<{ exp?: number; id: string }>(token)
+    // 判断 Token 是否过期
+    if (!payload.exp || Date.now() >= payload.exp * 1000) {
+      throw new Error('Token 已过期')
+    }
+
+    // Token 有效，恢复登录状态
+    authStore.setToken(token)
+    authStore.setisLogin(true)
+    userStore.setUserInfo(userInfo)
     // 获取用户信息，并存储到状态管理中
+    //在用户每次请求中都应该获取用户最新的信息
+    // 因为用户登录之后如果这个时间段被禁用，应该让其退出登录，而不是继续使用
     const result = await getInfo({ uid: payload.id })
     const { code, data } = result as HttpResponse
     if (code === 200) {
@@ -46,15 +55,6 @@ router.beforeEach(async (to) => {
       localStorage.clear()
       return { name: 'login' }
     }
-    // 判断 Token 是否过期
-    if (!payload.exp || Date.now() >= payload.exp * 1000) {
-      throw new Error('Token 已过期')
-    }
-
-    // Token 有效，恢复登录状态
-    authStore.setToken(token)
-    authStore.setisLogin(true)
-    userStore.setUserInfo(userInfo)
     // 已登录用户禁止进入登录页
     if (to.name === 'login') {
       return { name: 'index' }
