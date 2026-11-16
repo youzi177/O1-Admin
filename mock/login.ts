@@ -16,7 +16,7 @@ export default [
       return {
         code: 200,
         token:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwic3ViIjoiMSIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3OTQ4MTk2MDAsImV4cCI6MTc5NDgyMzIwMH0.demo_signature',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwic3ViIjoiMSIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3OTQ4NjY3MDAsImV4cCI6MTc5NTQ3MTUwMH0.demo_signature',
         message: '登录成功',
         tokenType: 'Bearer',
         expiresIn: 7200,

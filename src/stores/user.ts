@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 interface UserInfo {
-  name: string
-  pic: string
+  username: string
+  avatar: string
   id: string
   status: string
   roles: []

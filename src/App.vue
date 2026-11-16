@@ -18,4 +18,9 @@ import { usePwa } from './composables/usePwa'
 const { offlineReady, needRefresh, updateServiceWorker, close } = usePwa()
 </script>
 
-<style></style>
+<style>
+/* 进度条颜色 */
+#nprogress .bar {
+  background: #409eff !important;
+}
+</style>

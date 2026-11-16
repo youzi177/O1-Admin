@@ -1,7 +1,6 @@
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 // 参数说明：
-// 参数	作用
 // easing	动画效果
 // speed	动画速度
 // showSpinner	是否显示右侧转圈
