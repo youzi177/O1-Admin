@@ -143,12 +143,12 @@ const toggleTheme = () => {
 
 /* Hover 状态 */
 .theme-switch:hover {
-  border-color: var(--o1-primary);
+  border-color: var(--o1-color-primary);
 }
 
 /* 键盘焦点 */
 .theme-switch:focus-visible {
-  outline: 2px solid var(--o1-primary);
+  outline: 2px solid var(--o1-color-primary);
   outline-offset: 3px;
 }
 </style>

@@ -140,7 +140,7 @@ const handleRefresh = () => {
   flex-shrink: 0;
   @apply flex justify-center items-center h-full text-2xl font-bold;
   letter-spacing: 0.5px;
-  color: var(--o1-primary);
+  color: var(--o1-color-primary);
 }
 
 /* 右侧区域 */
@@ -177,7 +177,7 @@ const handleRefresh = () => {
 }
 
 .icon-btn:focus-visible {
-  outline: 2px solid var(--o1-primary);
+  outline: 2px solid var(--o1-color-primary);
   outline-offset: 2px;
 }
 

@@ -54,7 +54,7 @@ defineEmits<{
 }
 
 .icon-btn:focus-visible {
-  outline: 2px solid var(--o1-primary);
+  outline: 2px solid var(--o1-color-primary);
   outline-offset: 2px;
 }
 
