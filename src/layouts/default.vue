@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import OHeader from './components/OHeader.vue'
+import OHeader from './components/OHeader/index.vue'
 import OMenu from './components/OMenu.vue'
 import OTagList from './components/OTagList.vue'
 </script>
