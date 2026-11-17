@@ -14,7 +14,7 @@
 
         <!-- 刷新页面 -->
         <el-tooltip content="刷新页面" placement="bottom">
-          <button class="icon-btn" type="button">
+          <button class="icon-btn" type="button" @click="handleRefresh">
             <div class="i-ep:refresh"></div>
           </button>
         </el-tooltip>
@@ -25,9 +25,14 @@
     <div class="header-right">
       <O1ThemeSwitch />
       <!-- 全屏按钮：手机端隐藏 -->
-      <el-tooltip content="全屏" placement="bottom">
-        <button class="icon-btn fullscreen-btn" type="button">
+      <el-tooltip content="全屏" placement="bottom" v-if="!isFullscreen">
+        <button class="icon-btn fullscreen-btn" type="button" @click="toggle">
           <div class="i-ep:full-screen"></div>
+        </button>
+      </el-tooltip>
+      <el-tooltip content="退出全屏" placement="bottom" v-else>
+        <button class="icon-btn fullscreen-btn" type="button" @click="toggle">
+          <div class="i-ep:aim"></div>
         </button>
       </el-tooltip>
 
@@ -119,6 +124,13 @@ const handleCommand = (c: string) => {
       break
   }
 }
+
+// 刷新页面
+const handleRefresh = () => {
+  location.reload()
+}
+// 全屏功能,使用VueUse,isFullscreen是否全屏状态，toggle切换全屏
+const { isFullscreen, toggle } = useFullscreen()
 </script>
 
 <style scoped>
