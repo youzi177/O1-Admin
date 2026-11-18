@@ -1,6 +1,13 @@
 <template>
   <div class="f-menu">
-    <el-menu :default-active="activeMenu" class="el-menu-vertical-demo" router>
+    <el-menu
+      :default-active="activeMenu"
+      class="el-menu-vertical-demo"
+      :collapse="collapsed"
+      :collapse-transition="false"
+      router
+      @select="emit('select')"
+    >
       <MenuItem v-for="item in asidsMenu" :key="item.path || item.name" :item="item" />
     </el-menu>
   </div>
@@ -10,6 +17,14 @@
 import MenuItem from './MenuItem.vue'
 import { asidsMenu } from '@/config/menu'
 
+defineProps<{
+  collapsed: boolean
+}>()
+
+const emit = defineEmits<{
+  select: []
+}>()
+
 const route = useRoute()
 
 const activeMenu = computed(() => route.path)
@@ -17,6 +32,23 @@ const activeMenu = computed(() => route.path)
 
 <style scoped>
 .f-menu {
-  @apply fixed h-full w-64 shadow-2xl;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.el-menu {
+  width: 100%;
+  height: 100%;
+  border-right: none;
+}
+/* 折叠状态下隐藏菜单文字 */
+.el-menu--collapse {
+  width: 64px;
+}
+
+.el-menu--collapse :deep(.menu-title span) {
+  display: none;
 }
 </style>

@@ -2,6 +2,15 @@
   <header class="f-header">
     <!-- 左侧：Logo 和快捷操作 -->
     <div class="header-left">
+      <button
+        class="icon-btn menu-toggle-btn"
+        type="button"
+        :aria-label="isMobile ? '打开菜单' : isCollapsed ? '展开菜单' : '折叠菜单'"
+        @click="emit('menu-toggle')"
+      >
+        <div :class="isMobile ? 'i-ep:menu' : isCollapsed ? 'i-ep:expand' : 'i-ep:fold'" />
+      </button>
+
       <h1 class="logo">O1 Admin</h1>
       <OHeaderActions @refresh="handleRefresh" />
     </div>
@@ -36,21 +45,16 @@ const userStore = useUserStore()
 const authStore = useAuthStore()
 const router = useRouter()
 
-// 当前屏幕是否为移动端
-const isMobile = ref(false)
+const props = defineProps<{
+  isMobile: boolean
+  isCollapsed: boolean
+}>()
 
-const updateScreen = () => {
-  isMobile.value = window.innerWidth <= 480
-}
+const emit = defineEmits<{
+  'menu-toggle': []
+}>()
 
-onMounted(() => {
-  updateScreen()
-  window.addEventListener('resize', updateScreen)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', updateScreen)
-})
+const { isMobile, isCollapsed } = toRefs(props)
 
 // 用户信息
 const userInfo = computed(() => {
@@ -213,5 +217,9 @@ const handleRefresh = () => {
   .header-right {
     gap: 0;
   }
+}
+.menu-toggle-btn {
+  margin-left: 8px;
+  flex-shrink: 0;
 }
 </style>

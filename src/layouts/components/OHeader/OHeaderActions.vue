@@ -1,18 +1,18 @@
 <template>
   <div class="header-actions">
     <!-- 折叠侧边栏：后续接入布局状态 -->
-    <el-tooltip content="折叠侧边栏" placement="bottom">
+    <!-- <el-tooltip content="折叠侧边栏" placement="bottom">
       <button class="icon-btn" type="button">
         <div class="i-ep:fold"></div>
       </button>
-    </el-tooltip>
+    </el-tooltip> -->
 
     <!-- 刷新当前页面 -->
-    <el-tooltip content="刷新页面" placement="bottom">
+    <!-- <el-tooltip content="刷新页面" placement="bottom">
       <button class="icon-btn" type="button" @click="$emit('refresh')">
         <div class="i-ep:refresh"></div>
       </button>
-    </el-tooltip>
+    </el-tooltip> -->
   </div>
 </template>
 
