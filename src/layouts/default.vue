@@ -117,10 +117,6 @@ watch(isMobile, (mobile) => {
 
 /* 移动端 */
 @media (max-width: 768px) {
-  .layout-body {
-    width: 100%;
-  }
-
   .layout-main {
     padding: 12px;
   }
@@ -159,10 +155,5 @@ watch(isMobile, (mobile) => {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-}
-
-/* 清除 Drawer 默认内边距 */
-:global(.mobile-menu-drawer .el-drawer__body) {
-  padding: 0;
 }
 </style>

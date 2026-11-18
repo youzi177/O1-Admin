@@ -38,18 +38,6 @@ defineProps<{
   display: flex;
   align-items: center;
   min-width: 0;
-}
-
-.menu-icon {
-  width: 18px;
-  height: 18px;
-  margin-right: 10px;
-  flex-shrink: 0;
-}
-.menu-title {
-  display: flex;
-  align-items: center;
-  min-width: 0;
   overflow: hidden;
 }
 
@@ -62,6 +50,9 @@ defineProps<{
 }
 
 .menu-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
   flex-shrink: 0;
 }
 </style>

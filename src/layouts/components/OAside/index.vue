@@ -43,10 +43,6 @@ const activeMenu = computed(() => route.path)
   height: 100%;
   border-right: none;
 }
-/* 折叠状态下隐藏菜单文字 */
-.el-menu--collapse {
-  width: 64px;
-}
 
 .el-menu--collapse :deep(.menu-title span) {
   display: none;
