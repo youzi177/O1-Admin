@@ -1,5 +1,5 @@
 <template>
-  <div>左侧菜单</div>
+  <div>商品管理</div>
 </template>
 
 <script lang="ts" setup></script>

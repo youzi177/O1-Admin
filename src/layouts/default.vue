@@ -6,7 +6,7 @@
       </el-header>
       <el-container>
         <el-aside>
-          <OMenu></OMenu>
+          <OAside></OAside>
         </el-aside>
         <el-main>
           <OTagList></OTagList>
@@ -19,7 +19,8 @@
 
 <script lang="ts" setup>
 import OHeader from './components/OHeader/index.vue'
-import OMenu from './components/OMenu.vue'
+// import OMenu from './components/OMenu.vue'
+import OAside from './components/OAside/index.vue'
 import OTagList from './components/OTagList.vue'
 </script>
 

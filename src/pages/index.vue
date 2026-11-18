@@ -20,7 +20,12 @@ const token = AuthStore.token
 const userinfo = UserStore.userInfo
 </script>
 
-<style></style>
+<style>
+.menu-icon {
+  width: 24px;
+  height: 24px;
+}
+</style>
 <route lang="yaml">
 meta:
   layout: default
