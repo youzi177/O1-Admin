@@ -118,10 +118,16 @@ watch(isMobile, (mobile) => {
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
+  /* 缩小一下内边距 */
+  --el-main-padding: 15px;
 }
 
 /* 移动端 */
 @media (max-width: 768px) {
+  .layout-main {
+    /* 缩小一下内边距 */
+    --el-main-padding: 10px;
+  }
   .main-content {
     padding: 12px;
   }

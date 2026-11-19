@@ -1,18 +1,31 @@
 <template>
-  <header class="f-header">
-    <!-- 左侧：Logo 和快捷操作 -->
+  <header
+    class="f-header"
+    :class="{
+      'is-collapsed': isCollapsed,
+      'is-mobile': isMobile,
+    }"
+  >
+    <!-- 左侧：品牌区域、菜单折叠、快捷操作 -->
     <div class="header-left">
+      <!-- Logo 品牌区域 -->
+      <div class="header-brand">
+        <span v-if="!isCollapsed || isMobile" class="logo"> O1 Admin </span>
+        <span v-else class="logo-mini"> O1 </span>
+      </div>
+
+      <!-- 菜单折叠按钮 -->
       <button
         class="icon-btn menu-toggle-btn"
         type="button"
         :aria-label="isMobile ? '打开菜单' : isCollapsed ? '展开菜单' : '折叠菜单'"
         @click="emit('menu-toggle')"
       >
-        <div :class="isMobile ? 'i-ep:menu' : isCollapsed ? 'i-ep:expand' : 'i-ep:fold'" />
+        <div :class="isMobile ? 'i-ep:menu' : isCollapsed ? 'i-ep:expand' : 'i-ep:fold'"></div>
       </button>
 
-      <h1 class="logo">O1 Admin</h1>
-      <OHeaderActions @refresh="handleRefresh" />
+      <!-- 快捷操作 -->
+      <OHeaderActions class="header-actions" @refresh="handleRefresh" />
     </div>
 
     <!-- 右侧：主题、全屏和用户菜单 -->
@@ -21,7 +34,12 @@
 
       <!-- 手机端隐藏全屏按钮 -->
       <el-tooltip v-if="!isMobile" :content="isFullscreen ? '退出全屏' : '全屏'" placement="bottom">
-        <button class="icon-btn fullscreen-btn" type="button" @click="toggle">
+        <button
+          class="icon-btn fullscreen-btn"
+          type="button"
+          :aria-label="isFullscreen ? '退出全屏' : '全屏'"
+          @click="toggle"
+        >
           <div :class="isFullscreen ? 'i-ep:aim' : 'i-ep:full-screen'"></div>
         </button>
       </el-tooltip>
@@ -29,7 +47,7 @@
       <OHeaderUserMenu :user-info="userInfo" :is-mobile="isMobile" @command="handleCommand" />
     </div>
 
-    <!-- 修改密码抽屉：复用项目级通用抽屉 -->
+    <!-- 修改密码抽屉 -->
     <OHeaderPasswordDrawer v-model="passwordDrawerVisible" />
   </header>
 </template>
@@ -117,7 +135,6 @@ const handleRefresh = () => {
 /* Header 整体布局 */
 .f-header {
   --header-height: 60px;
-  --logo-width: 250px;
 
   @apply fixed top-0 left-0 right-0 z-50 flex items-center justify-between;
 
@@ -127,6 +144,7 @@ const handleRefresh = () => {
   background: var(--o1-bg-container);
   border-bottom: 1px solid var(--o1-border-color);
   box-shadow: 0 2px 8px rgb(0 0 0 / 5%);
+
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
@@ -139,12 +157,38 @@ const handleRefresh = () => {
   min-width: 0;
 }
 
-.logo {
-  width: var(--logo-width);
+/* Logo 品牌区域 */
+.header-brand {
+  width: 240px;
+  height: 100%;
   flex-shrink: 0;
-  @apply flex justify-center items-center h-full text-2xl font-bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: width 0.2s ease;
+}
+
+/* 完整 Logo */
+.logo {
+  font-size: 22px;
+  font-weight: 700;
   letter-spacing: 0.5px;
   color: var(--o1-color-primary);
+  white-space: nowrap;
+}
+
+/* 折叠后的 Logo */
+.logo-mini {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--o1-color-primary);
+}
+
+/* 侧边栏折叠 */
+.f-header.is-collapsed .header-brand {
+  width: 64px;
 }
 
 /* 右侧区域 */
@@ -156,16 +200,21 @@ const handleRefresh = () => {
 /* 通用图标按钮 */
 .icon-btn {
   @apply flex justify-center items-center;
+
   width: 40px;
   height: 40px;
   margin: 0 4px;
   padding: 0;
+
   border: none;
   border-radius: 8px;
+
   color: var(--o1-text-secondary);
   background: transparent;
+
   font-size: 20px;
   cursor: pointer;
+
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
@@ -185,41 +234,46 @@ const handleRefresh = () => {
   outline-offset: 2px;
 }
 
-/* 平板端 */
+/* 菜单按钮 */
+.menu-toggle-btn {
+  flex-shrink: 0;
+}
+
+/* 平板及手机端 */
 @media (max-width: 768px) {
   .f-header {
-    --logo-width: 150px;
-    padding-right: 8px;
+    padding: 0 8px;
+  }
+
+  /* 移动端取消固定品牌宽度 */
+  .header-brand {
+    width: auto;
+    padding: 0 8px;
+  }
+
+  /* 手机端不受桌面折叠状态影响 */
+  .f-header.is-collapsed .header-brand {
+    width: auto;
   }
 
   .logo {
-    font-size: 20px;
+    font-size: 18px;
+  }
+
+  .logo-mini {
+    font-size: 18px;
+  }
+
+  .header-left {
+    gap: 0;
   }
 
   .header-right {
     gap: 2px;
   }
-}
 
-/* 手机端 */
-@media (max-width: 480px) {
-  .f-header {
-    --logo-width: auto;
-    padding: 0 8px;
+  .icon-btn {
+    margin: 0 2px;
   }
-
-  .logo {
-    width: auto;
-    padding: 0 8px;
-    font-size: 18px;
-  }
-
-  .header-right {
-    gap: 0;
-  }
-}
-.menu-toggle-btn {
-  margin-left: 8px;
-  flex-shrink: 0;
 }
 </style>
