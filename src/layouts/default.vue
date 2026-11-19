@@ -20,7 +20,9 @@
         <!-- 页面内容 -->
         <el-main class="layout-main">
           <OTagList />
-          <RouterView />
+          <div class="main-content">
+            <RouterView />
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -58,7 +60,7 @@
 import { useMediaQuery } from '@vueuse/core'
 import OHeader from './components/OHeader/index.vue'
 import OAside from './components/OAside/index.vue'
-import OTagList from './components/OTagList.vue'
+import OTagList from './components/OTagList/index.vue'
 
 // 屏幕断点：768px
 const isMobile = useMediaQuery('(max-width: 768px)')
@@ -110,14 +112,17 @@ watch(isMobile, (mobile) => {
 }
 
 .layout-main {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
+  min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 /* 移动端 */
 @media (max-width: 768px) {
-  .layout-main {
+  .main-content {
     padding: 12px;
   }
 }
@@ -155,5 +160,10 @@ watch(isMobile, (mobile) => {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+}
+
+.main-content {
+  padding: 12px;
+  box-sizing: border-box;
 }
 </style>

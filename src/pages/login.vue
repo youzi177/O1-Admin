@@ -21,6 +21,7 @@ definePage({
     requiresAuth: false,
     title: '登录',
     layout: false,
+    hideTab: true,
   },
 })
 import LoginBrand from '../components/LoginBrand.vue'

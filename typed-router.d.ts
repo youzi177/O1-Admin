@@ -38,13 +38,7 @@ declare module 'vue-router/auto-routes' {
       never
     >
     about: RouteRecordInfo<'about', '/about', Record<never, never>, Record<never, never>, never>
-    '/goods/list': RouteRecordInfo<
-      '/goods/list',
-      '/goods/list',
-      Record<never, never>,
-      Record<never, never>,
-      never
-    >
+    list: RouteRecordInfo<'list', '/goods/list', Record<never, never>, Record<never, never>, never>
     login: RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>, never>
   }
 
@@ -75,7 +69,7 @@ declare module 'vue-router/auto-routes' {
       pathParamNames: never
     }
     'src/pages/goods/list.vue': {
-      routes: '/goods/list'
+      routes: 'list'
       views: never
       pathParamNames: never
     }

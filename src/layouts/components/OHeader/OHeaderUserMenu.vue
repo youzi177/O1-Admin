@@ -59,8 +59,7 @@ defineEmits<{
 }
 
 .user-trigger:focus-visible {
-  outline: 2px solid var(--o1-color-primary);
-  outline-offset: 2px;
+  outline: none;
 }
 
 /* 用户名 */

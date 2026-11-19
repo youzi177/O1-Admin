@@ -1,6 +1,8 @@
 <template>
-  <div>当前的token:{{ token }}</div>
-  <div>当前的用户信息:{{ userinfo }}</div>
+  <div class="page-container">
+    <div class="info-item">当前的token:{{ token }}</div>
+    <div class="info-item">当前的用户信息:{{ userinfo }}</div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -8,7 +10,8 @@ definePage({
   name: 'index',
   meta: {
     requiresAuth: true,
-    title: '后台管理系统首页',
+    title: '首页',
+    affix: true,
   },
 })
 import { useAuthStore, useUserStore } from '@/stores/index.ts'
@@ -24,6 +27,16 @@ const userinfo = UserStore.userInfo
 .menu-icon {
   width: 24px;
   height: 24px;
+}
+.page-container {
+  width: 100%;
+  min-width: 0;
+}
+
+.info-item {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  margin-bottom: 16px;
 }
 </style>
 <route lang="yaml">
