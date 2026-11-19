@@ -10,8 +10,8 @@ definePage({
   name: 'index',
   meta: {
     requiresAuth: true,
-    title: '首页',
-    affix: true,
+    title: '首页', //标签和浏览器标题
+    affix: true, //标签是否可关闭
   },
 })
 import { useAuthStore, useUserStore } from '@/stores/index.ts'

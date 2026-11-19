@@ -8,7 +8,6 @@ definePage({
   meta: {
     requiresAuth: true,
     title: '商品管理',
-    affix: false,
   },
 })
 </script>

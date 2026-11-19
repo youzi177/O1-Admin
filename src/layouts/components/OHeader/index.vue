@@ -177,6 +177,7 @@ const handleRefresh = () => {
   letter-spacing: 0.5px;
   color: var(--o1-color-primary);
   white-space: nowrap;
+  transform: translateX(-6px);
 }
 
 /* 折叠后的 Logo */
@@ -184,6 +185,7 @@ const handleRefresh = () => {
   font-size: 22px;
   font-weight: 700;
   color: var(--o1-color-primary);
+  transform: none;
 }
 
 /* 侧边栏折叠 */
