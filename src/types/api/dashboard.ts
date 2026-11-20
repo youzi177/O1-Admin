@@ -23,6 +23,6 @@ export interface DashboardResponse {
   data: DashboardOverview
 }
 export interface DashboardOrderTrend {
-  day: string
+  date: string
   count: number
 }

@@ -35,7 +35,7 @@ function render() {
       grid: { left: 42, right: 18, top: 24, bottom: 32 },
       xAxis: {
         type: 'category',
-        data: props.data.map((x) => x.day),
+        data: props.data.map((x) => x.date),
         axisPointer: {
           show: false,
         },
