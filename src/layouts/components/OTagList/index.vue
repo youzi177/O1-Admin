@@ -1,7 +1,12 @@
 <template>
   <div class="f-tag-list">
     <!-- 左侧：路由标签 -->
-    <el-tabs v-model="activeTab" class="tag-tabs" @tab-remove="removeTab">
+    <el-tabs
+      :model-value="activeTab"
+      class="tag-tabs"
+      @update:model-value="emit('update:activeTab', String($event))"
+      @tab-remove="emit('remove', $event)"
+    >
       <el-tab-pane
         v-for="item in tabs"
         :key="item.path"
@@ -17,7 +22,7 @@
       class="tag-actions"
       :show-timeout="150"
       :hide-timeout="200"
-      @command="handleCommand"
+      @command="emit('command', $event)"
     >
       <button class="tag-action-btn" type="button" aria-label="标签页操作">
         <div class="i-ep:arrow-down arrow-icon" />
@@ -25,11 +30,11 @@
 
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item command="close-current"> 关闭当前标签 </el-dropdown-item>
-          <el-dropdown-item command="close-left"> 关闭左侧标签 </el-dropdown-item>
-          <el-dropdown-item command="close-right"> 关闭右侧标签 </el-dropdown-item>
-          <el-dropdown-item command="close-others"> 关闭其他标签 </el-dropdown-item>
-          <el-dropdown-item divided command="close-all"> 关闭全部标签 </el-dropdown-item>
+          <el-dropdown-item command="close-current">关闭当前标签</el-dropdown-item>
+          <el-dropdown-item command="close-left">关闭左侧标签</el-dropdown-item>
+          <el-dropdown-item command="close-right">关闭右侧标签</el-dropdown-item>
+          <el-dropdown-item command="close-others">关闭其他标签</el-dropdown-item>
+          <el-dropdown-item divided command="close-all">关闭全部标签</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -37,9 +42,19 @@
 </template>
 
 <script lang="ts" setup>
-import { useListTab } from '@/composables/useListTab'
+import type { TabPaneName } from 'element-plus'
+import type { TabItem } from '@/composables/useListTab'
 
-const { tabs, activeTab, removeTab, handleCommand } = useListTab()
+defineProps<{
+  tabs: TabItem[]
+  activeTab: string
+}>()
+
+const emit = defineEmits<{
+  'update:activeTab': [value: string]
+  remove: [name: TabPaneName]
+  command: [command: string]
+}>()
 </script>
 
 <style scoped>
@@ -61,7 +76,6 @@ const { tabs, activeTab, removeTab, handleCommand } = useListTab()
   overflow: hidden;
 }
 
-/* 去掉 Element Plus 默认底部边框和间距 */
 :deep(.el-tabs__header) {
   margin: 0;
   border-bottom: none;
@@ -71,16 +85,12 @@ const { tabs, activeTab, removeTab, handleCommand } = useListTab()
   display: none;
 }
 
-:deep(.el-tabs__nav-wrap) {
-  height: 100%;
-}
-
+:deep(.el-tabs__nav-wrap),
 :deep(.el-tabs__nav-scroll),
 :deep(.el-tabs__nav) {
   height: 100%;
 }
 
-/* 标签 */
 :deep(.el-tabs__item) {
   position: relative;
   height: 44px;
@@ -92,16 +102,15 @@ const { tabs, activeTab, removeTab, handleCommand } = useListTab()
   transition: color 0.2s ease;
 }
 
-:deep(.el-tabs__item:hover) {
+:deep(.el-tabs__item:hover),
+:deep(.el-tabs__item.is-active) {
   color: var(--o1-color-primary);
 }
 
 :deep(.el-tabs__item.is-active) {
-  color: var(--o1-color-primary);
   font-weight: 500;
 }
 
-/* 当前标签下划线：固定宽度，水平居中 */
 :deep(.el-tabs__item.is-active::after) {
   position: absolute;
   bottom: 0;
@@ -114,7 +123,6 @@ const { tabs, activeTab, removeTab, handleCommand } = useListTab()
   transform: translateX(-50%);
 }
 
-/* 关闭按钮 */
 :deep(.el-tabs__item .el-icon.is-icon-close) {
   margin-left: 6px;
   border-radius: 50%;
@@ -125,7 +133,6 @@ const { tabs, activeTab, removeTab, handleCommand } = useListTab()
   background: var(--o1-bg-hover);
 }
 
-/* 右侧操作区域 */
 .tag-actions {
   display: flex;
   flex-shrink: 0;
@@ -161,6 +168,7 @@ const { tabs, activeTab, removeTab, handleCommand } = useListTab()
 .arrow-icon {
   font-size: 16px;
 }
+
 :deep(.tag-actions .tag-action-btn),
 :deep(.tag-actions .tag-action-btn:hover),
 :deep(.tag-actions .tag-action-btn:active),
