@@ -19,13 +19,27 @@
 
         <!-- 页面内容 -->
         <el-main class="layout-main">
-          <OTagList />
+          <OTagList
+            :tabs="tabs"
+            :active-tab="activeTab"
+            @update:active-tab="activeTab = $event"
+            @remove="removeTab"
+            @command="handleCommand"
+          />
           <div class="main-content">
-            <RouterView v-slot="{ Component }">
-              <!-- 最大缓存10个，超过10个，最久页面没有访问的会销毁 -->
-              <KeepAlive :max="10">
-                <component :is="Component" />
+            <RouterView v-slot="{ Component, route }">
+              <KeepAlive :include="cacheNames" :max="10">
+                <component
+                  :is="Component"
+                  v-if="route.meta.keepAlive"
+                  :key="route.fullPath"
+                />
               </KeepAlive>
+              <component
+                :is="Component"
+                v-if="!route.meta.keepAlive"
+                :key="route.fullPath"
+              />
             </RouterView>
           </div>
         </el-main>
@@ -43,16 +57,13 @@
       class="mobile-menu-drawer"
     >
       <div class="mobile-menu-container">
-        <!-- 移动端菜单顶部 -->
         <div class="mobile-menu-header">
           <span class="mobile-menu-title">导航菜单</span>
-
           <el-button text circle aria-label="关闭菜单" @click="mobileMenuVisible = false">
             <div class="i-ep:close text-xl" />
           </el-button>
         </div>
 
-        <!-- 菜单内容 -->
         <div class="mobile-menu-content">
           <OAside :collapsed="false" @select="mobileMenuVisible = false" />
         </div>
@@ -66,9 +77,19 @@ import { useMediaQuery } from '@vueuse/core'
 import OHeader from './components/OHeader/index.vue'
 import OAside from './components/OAside/index.vue'
 import OTagList from './components/OTagList/index.vue'
+import { useListTab } from '@/composables/useListTab'
 
 // 屏幕断点：768px
 const isMobile = useMediaQuery('(max-width: 768px)')
+
+// 标签页和 KeepAlive 缓存统一由布局层管理，只创建一个状态实例
+const {
+  tabs,
+  activeTab,
+  cacheNames,
+  removeTab,
+  handleCommand,
+} = useListTab()
 
 // PC 端折叠状态
 const isCollapsed = ref(false)
@@ -76,7 +97,6 @@ const isCollapsed = ref(false)
 // 移动端菜单显示状态
 const mobileMenuVisible = ref(false)
 
-// 头部菜单按钮
 const handleMenuToggle = () => {
   if (isMobile.value) {
     mobileMenuVisible.value = !mobileMenuVisible.value
@@ -87,9 +107,7 @@ const handleMenuToggle = () => {
 
 // 从移动端切回 PC 时关闭抽屉
 watch(isMobile, (mobile) => {
-  if (!mobile) {
-    mobileMenuVisible.value = false
-  }
+  if (!mobile) mobileMenuVisible.value = false
 })
 </script>
 
@@ -123,24 +141,23 @@ watch(isMobile, (mobile) => {
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  /* 缩小一下内边距 */
   --el-main-padding: 15px;
 }
 
-/* 移动端 */
 @media (max-width: 768px) {
   .layout-main {
-    /* 缩小一下内边距 */
     --el-main-padding: 10px;
   }
+
   .main-content {
     padding: 12px;
   }
 }
+
 :global(.mobile-menu-drawer .el-drawer__body) {
   padding: 0;
 }
-/* 移动端菜单整体 */
+
 .mobile-menu-container {
   display: flex;
   flex-direction: column;
@@ -148,7 +165,6 @@ watch(isMobile, (mobile) => {
   overflow: hidden;
 }
 
-/* 顶部关闭栏 */
 .mobile-menu-header {
   display: flex;
   align-items: center;
@@ -159,14 +175,12 @@ watch(isMobile, (mobile) => {
   border-bottom: 1px solid var(--o1-border-color);
 }
 
-/* 菜单标题 */
 .mobile-menu-title {
   font-size: 16px;
   font-weight: 600;
   color: var(--o1-text-primary);
 }
 
-/* 菜单内容 */
 .mobile-menu-content {
   flex: 1;
   min-height: 0;

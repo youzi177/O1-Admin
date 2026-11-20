@@ -6,14 +6,21 @@
 </template>
 
 <script lang="ts" setup>
+defineOptions({
+  name: 'HomePage',
+})
+
 definePage({
   name: 'index',
   meta: {
     requiresAuth: true,
-    title: '首页', //标签和浏览器标题
-    affix: true, //标签是否可关闭
+    title: '首页',
+    affix: true,
+    keepAlive: true,
+    cacheName: 'HomePage',
   },
 })
+
 import { useAuthStore, useUserStore } from '@/stores/index.ts'
 
 const AuthStore = useAuthStore()
@@ -28,6 +35,7 @@ const userinfo = UserStore.userInfo
   width: 24px;
   height: 24px;
 }
+
 .page-container {
   width: 100%;
   min-width: 0;
@@ -39,6 +47,7 @@ const userinfo = UserStore.userInfo
   margin-bottom: 16px;
 }
 </style>
+
 <route lang="yaml">
 meta:
   layout: default
