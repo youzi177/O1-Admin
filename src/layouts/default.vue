@@ -21,7 +21,12 @@
         <el-main class="layout-main">
           <OTagList />
           <div class="main-content">
-            <RouterView />
+            <RouterView v-slot="{ Component }">
+              <!-- 最大缓存10个，超过10个，最久页面没有访问的会销毁 -->
+              <KeepAlive :max="10">
+                <component :is="Component" />
+              </KeepAlive>
+            </RouterView>
           </div>
         </el-main>
       </el-container>
