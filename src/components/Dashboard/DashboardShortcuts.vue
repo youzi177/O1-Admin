@@ -1,11 +1,6 @@
 <template>
   <div class="shortcut-grid">
-    <button
-      v-for="item in shortcuts"
-      :key="item.label"
-      type="button"
-      @click="navigate(item.path)"
-    >
+    <button v-for="item in shortcuts" :key="item.label" type="button" @click="navigate(item.path)">
       <div class="shortcut-icon" :class="item.icon" :style="{ color: item.color }"></div>
       <span>{{ item.label }}</span>
     </button>
@@ -55,9 +50,16 @@ function navigate(path: string) {
   cursor: pointer;
 }
 
+.shortcut-grid button {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
 .shortcut-grid button:hover {
-  background: var(--o1-bg-hover);
-  border-color: var(--o1-color-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
 }
 
 .shortcut-icon {
