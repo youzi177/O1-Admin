@@ -23,4 +23,7 @@ const { offlineReady, needRefresh, updateServiceWorker, close } = usePwa()
 #nprogress .bar {
   background: #409eff !important;
 }
+body {
+  @apply bg-gray-100;
+}
 </style>

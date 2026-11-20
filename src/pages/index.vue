@@ -30,12 +30,7 @@ const token = AuthStore.token
 const userinfo = UserStore.userInfo
 </script>
 
-<style>
-.menu-icon {
-  width: 24px;
-  height: 24px;
-}
-
+<style scoped>
 .page-container {
   width: 100%;
   min-width: 0;
