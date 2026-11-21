@@ -5,7 +5,7 @@ type Status = 'enabled' | 'disabled'
 let roles = [
   { id: 1, name: '超级管理员', code: 'super_admin', description: '拥有系统全部管理权限', status: 'enabled' as Status, permissionCodes: ['*'], createdAt: '2026-11-01 10:00:00' },
   { id: 2, name: '运营人员', code: 'operator', description: '负责日常业务运营', status: 'enabled' as Status, permissionCodes: ['dashboard:view', 'user:list', 'user:detail', 'goods:list'], createdAt: '2026-11-02 11:30:00' },
-  { id: 3, name: '财务人员', code: 'finance', description: '负责财务数据查看', status: 'enabled' as Status, permissionCodes: ['dashboard:view', 'order:list', 'order:detail'], createdAt: '2026-11-03 09:20:00' },
+  { id: 3, name: '财务人员', code: 'finance', description: '负责财务数据查看', status: 'enabled' as Status, permissionCodes: ['dashboard:view', 'order:list', 'order:detail', 'order:export'], createdAt: '2026-11-03 09:20:00' },
   { id: 4, name: '访客', code: 'visitor', description: '只读访问', status: 'disabled' as Status, permissionCodes: ['dashboard:view'], createdAt: '2026-11-04 14:10:00' },
 ]
 
