@@ -58,7 +58,7 @@ import type { DashboardOverview, DashboardRange } from '@/types/api/dashboard'
 defineOptions({ name: 'HomePage' })
 definePage({
   name: 'index',
-  meta: { requiresAuth: true, title: '首页', affix: true, keepAlive: true, cacheName: 'HomePage' },
+  meta: { requiresAuth: true, title: '首页', permission: 'dashboard:view', affix: true, keepAlive: true, cacheName: 'HomePage' },
 })
 const empty: DashboardOverview = {
   statistics: {
