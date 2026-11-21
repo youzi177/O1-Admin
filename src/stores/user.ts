@@ -1,31 +1,32 @@
 import { defineStore } from 'pinia'
-interface UserInfo {
-  username: string
-  avatar: string
-  id: string
-  status: string
-  roles: []
-}
-export const useUserStore = defineStore('user', {
-  state() {
-    return {
-      userInfo: {} as UserInfo,
-    }
-  },
 
-  getters: {},
+export interface UserInfo {
+  id: number
+  username: string
+  nickname: string
+  avatar: string
+  status: string
+  roles: string[]
+  permissions: string[]
+}
+
+const emptyUserInfo: UserInfo = { id: 0, username: '', nickname: '', avatar: '', status: '', roles: [], permissions: [] }
+
+export const useUserStore = defineStore('user', {
+  state: () => ({ userInfo: { ...emptyUserInfo } as UserInfo }),
+  getters: {
+    isSuperAdmin: state => state.permissions?.includes('*') ?? false,
+  },
   actions: {
-    //设置用户基本信息，Partial<UserInfo>表示修改部分数据
     setUserInfo(value: Partial<UserInfo>) {
-      this.userInfo = {
-        ...this.userInfo,
-        ...value,
-      }
-      localStorage.setItem('userInfo', JSON.stringify(this.userInfo)) //localStorage存用户信息
+      this.userInfo = { ...emptyUserInfo, ...value }
+      localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
     },
-    // 清除用户信息（重置为空对象）
+    hasPermission(permission: string) {
+      return this.userInfo.permissions.includes('*') || this.userInfo.permissions.includes(permission)
+    },
     clearUserInfo() {
-      this.userInfo = {} as UserInfo
+      this.userInfo = { ...emptyUserInfo }
       localStorage.removeItem('userInfo')
     },
   },
