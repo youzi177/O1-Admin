@@ -53,7 +53,7 @@ import { createRole, getPermissions, getRoles, updateRole } from '@/api/system'
 import type { SystemPermission, SystemRole } from '@/types/api/system'
 import type { FormInstance, FormRules } from 'element-plus'
 
-definePage({ name: 'system-role', meta: { requiresAuth: true, title: '角色管理', keepAlive: true } })
+definePage({ name: 'system-role', meta: { requiresAuth: true, title: '角色管理', permission: 'role:list', keepAlive: true } })
 const rows = ref<SystemRole[]>([])
 const permissions = ref<SystemPermission[]>([])
 const loading = ref(false)
