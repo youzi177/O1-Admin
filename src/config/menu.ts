@@ -43,9 +43,19 @@ export const asidsMenu: MenuItem[] = [
     path: '/system',
     children: [
       {
-        name: '系统设置',
-        icon: 'i-ep:setting',
-        path: '/system/settings',
+        name: '角色管理',
+        icon: 'i-ep:user-filled',
+        path: '/system/role',
+      },
+      {
+        name: '菜单管理',
+        icon: 'i-ep:menu',
+        path: '/system/menu',
+      },
+      {
+        name: '权限管理',
+        icon: 'i-ep:lock',
+        path: '/system/permission',
       },
     ],
   },
