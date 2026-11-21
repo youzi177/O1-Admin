@@ -9,7 +9,15 @@ const accounts = {
   finance: {
     password: '123456', id: 2, username: 'finance', nickname: '财务人员',
     avatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=finance',
-    roles: ['finance'], permissions: ['dashboard:view', 'order:list', 'order:detail', 'order:export'],
+    roles: ['finance'],
+    permissions: [
+      'dashboard:view',
+      'dashboard:statistics:paid-orders',
+      'dashboard:statistics:order-count',
+      'order:list',
+      'order:detail',
+      'order:export',
+    ],
   },
 } as const
 
@@ -25,7 +33,8 @@ export default [
     url: '/api/admin/login',
     method: 'post',
     response: ({ body }) => {
-      const account = accounts[body.username as keyof typeof accounts]
+      const username = String(body.username || '').trim()
+      const account = accounts[username as keyof typeof accounts]
       if (!account || account.password !== body.password) return { code: 401, message: '用户名或密码错误', data: null }
       const { password: _password, ...userInfo } = account
       return { code: 200, token: createToken(account.id), message: '登录成功', tokenType: 'Bearer', expiresIn: 7200, data: { ...userInfo, status: '0' } }
