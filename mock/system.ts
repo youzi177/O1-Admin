@@ -27,6 +27,8 @@ let permissions = [
   ['仪表盘', 'dashboard:view', 'dashboard', 'view', 'GET', '/api/admin/dashboard/overview', '查看控制台数据'],
   ['查看商品', 'goods:list', 'goods', 'list', 'GET', '/api/admin/goods', '查看商品列表'],
   ['查看订单', 'order:list', 'order', 'list', 'GET', '/api/admin/orders', '查看订单列表'],
+  ['查看订单详情', 'order:detail', 'order', 'detail', 'GET', '/api/admin/orders/:id', '查看订单详情'],
+  ['导出订单', 'order:export', 'order', 'export', 'POST', '/api/admin/orders/export', '导出订单数据'],
   ['查看用户', 'user:list', 'user', 'list', 'GET', '/api/admin/users', '查看用户列表'],
   ['查看用户详情', 'user:detail', 'user', 'detail', 'GET', '/api/admin/users/:id', '查看用户详情'],
   ['查看角色', 'role:list', 'role', 'list', 'GET', '/api/admin/roles', '查看角色列表'],
