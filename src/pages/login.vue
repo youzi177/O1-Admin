@@ -27,31 +27,33 @@ definePage({
 import LoginBrand from '../components/LoginBrand.vue'
 import LoginForm from '../components/LoginForm.vue'
 import { login } from '../api/login'
+import { getFirstAccessibleMenuPath } from '@/config/menu'
 
 import { ElMessage } from 'element-plus'
 import { useAuthStore, useUserStore } from '@/stores/index.ts'
-const AuthStore = useAuthStore()
-const UserStore = useUserStore()
+const authStore = useAuthStore()
+const userStore = useUserStore()
 
 const router = useRouter()
 const loading = ref(false)
 
-// 登录处理，后续接入 API
+// 登录后进入当前账号第一个有权访问的页面；没有任何菜单权限时进入 403。
 const handleLogin = async (formdata: { username: string; password: string }) => {
   loading.value = true
   try {
-    const result = await login(formdata)
+    const result = await login({ ...formdata, username: formdata.username.trim() })
     const { code, message, token, data } = result
     if (code === 200) {
       if (data.status !== '0') {
         ElMessage.error('账号被禁用，请联系管理员')
         return
       }
-      AuthStore.setisLogin(true)
-      AuthStore.setToken(token as string)
-      UserStore.setUserInfo(data)
+      authStore.setisLogin(true)
+      authStore.setToken(token as string)
+      userStore.setUserInfo(data)
 
-      router.push('/')
+      const firstPath = getFirstAccessibleMenuPath(userStore.userInfo.permissions)
+      await router.push(firstPath || { name: 'forbidden' })
     } else {
       ElMessage.error(message)
     }
