@@ -46,6 +46,12 @@ let permissions = [
   ['查看权限', 'permission:list', 'permission', 'list', 'GET', '/api/admin/permissions', '查看权限目录'],
 ].map((item, index) => ({ id: index + 1, name: item[0], code: item[1], module: item[2], action: item[3], method: item[4], api: item[5], description: item[6], status: 'enabled' as Status }))
 
+// 登录 Mock 与角色管理共用这份角色权限数据，角色调整后下次登录立即生效。
+export const getMockRolePermissions = (roleCode: string): string[] => {
+  const role = roles.find(item => item.code === roleCode && item.status === 'enabled')
+  return role ? [...role.permissionCodes] : []
+}
+
 const ok = <T>(data: T, message = '操作成功') => ({ code: 200, message, data })
 const pageData = <T>(items: T[], query: Record<string, any>) => {
   const page = Math.max(1, Number(query.page) || 1)
