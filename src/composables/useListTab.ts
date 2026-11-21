@@ -11,6 +11,9 @@ export interface TabItem {
 const STORAGE_KEY = 'o1-visited-tabs'
 
 export function useListTab() {
+  const userStore = useUserStore()
+  // 每个用户独立保存标签，避免不同账号共用同一份浏览器缓存
+  const storageKey = `${STORAGE_KEY}:${userStore.userInfo.id}`
   const route = useRoute()
   const router = useRouter()
 
@@ -30,7 +33,7 @@ export function useListTab() {
   // 恢复本地保存的标签；缓存配置始终以当前路由配置为准
   const restoreTabs = (): TabItem[] => {
     try {
-      const saved: unknown = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+      const saved: unknown = JSON.parse(localStorage.getItem(storageKey) || '[]')
 
       if (!Array.isArray(saved)) return []
 
@@ -63,7 +66,7 @@ export function useListTab() {
     tabs,
     (value) => {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(value))
+        localStorage.setItem(storageKey, JSON.stringify(value))
       } catch {
         // 本地存储不可用时，不影响标签页正常使用
       }
