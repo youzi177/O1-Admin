@@ -15,7 +15,7 @@ const emptyUserInfo: UserInfo = { id: 0, username: '', nickname: '', avatar: '',
 export const useUserStore = defineStore('user', {
   state: () => ({ userInfo: { ...emptyUserInfo } as UserInfo }),
   getters: {
-    isSuperAdmin: state => state.permissions?.includes('*') ?? false,
+    isSuperAdmin: state => state.userInfo.permissions.includes('*'),
   },
   actions: {
     setUserInfo(value: Partial<UserInfo>) {
