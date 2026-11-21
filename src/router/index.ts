@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { routes, handleHotUpdate } from 'vue-router/auto-routes'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { useAuthStore, useUserStore } from '@/stores'
+import { getFirstAccessibleMenuPath } from '@/config/menu'
 import { jwtDecode } from 'jwt-decode'
 import { getInfo } from '@/api/login'
 import type { HttpResponse } from '@/types/api/login'
@@ -43,11 +44,16 @@ router.beforeEach(async to => {
       userStore.clearUserInfo()
       return { name: 'login' }
     }
-    if (to.name === 'login') return { name: 'index' }
+
+    if (to.name === 'login') {
+      const firstPath = getFirstAccessibleMenuPath(userStore.userInfo.permissions)
+      return firstPath ? { path: firstPath } : { name: 'forbidden' }
+    }
 
     const requiredPermission = to.meta.permission as string | undefined
     if (requiredPermission && !userStore.hasPermission(requiredPermission)) {
       ElMessage.warning('当前账号没有访问该页面的权限')
+      if (to.name === 'forbidden') return true
       return { name: 'forbidden' }
     }
     return true

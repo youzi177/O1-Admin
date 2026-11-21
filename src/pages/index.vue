@@ -1,14 +1,13 @@
 <template>
   <div v-loading="loading" class="dashboard-page">
     <div v-if="errorMessage" class="error">
-      <el-alert :title="errorMessage" type="error" show-icon :closable="false" /><el-button
-        size="small"
-        @click="loadDashboard(range)"
-        >重试</el-button
-      >
+      <el-alert :title="errorMessage" type="error" show-icon :closable="false" />
+      <el-button size="small" @click="loadDashboard(range)">重试</el-button>
     </div>
-    <div class="statistics">
+
+    <div v-if="canViewAnyStatistic" class="statistics">
       <DashboardStat
+        v-if="userStore.hasPermission('dashboard:statistics:paid-orders')"
         title="支付订单"
         :value="overview.statistics.paidOrders"
         tag="年"
@@ -17,6 +16,7 @@
         tag-type="success"
       />
       <DashboardStat
+        v-if="userStore.hasPermission('dashboard:statistics:order-count')"
         title="订单量"
         :value="overview.statistics.orderCount"
         tag="周"
@@ -25,6 +25,7 @@
         tag-type="danger"
       />
       <DashboardStat
+        v-if="userStore.hasPermission('dashboard:statistics:sales-amount')"
         title="销售额"
         :value="overview.statistics.salesAmount"
         tag="年"
@@ -34,6 +35,7 @@
         tag-type="primary"
       />
       <DashboardStat
+        v-if="userStore.hasPermission('dashboard:statistics:new-users')"
         title="新增用户"
         :value="overview.statistics.newUsers"
         tag="年"
@@ -42,24 +44,36 @@
         tag-type="warning"
       />
     </div>
+
     <DashboardShortcuts />
     <div class="content">
-      <DashboardChart :data="overview.orderTrend" @change="loadDashboard" /><DashboardReminders
-        :shop-items="overview.shopReminders"
-        :trade-items="overview.tradeReminders"
-      />
+      <DashboardChart :data="overview.orderTrend" @change="loadDashboard" />
+      <DashboardReminders :shop-items="overview.shopReminders" :trade-items="overview.tradeReminders" />
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { getDashboardOverview } from '@/api/dashboard'
 import type { DashboardOverview, DashboardRange } from '@/types/api/dashboard'
+import { useUserStore } from '@/stores'
 
 defineOptions({ name: 'HomePage' })
 definePage({
   name: 'index',
   meta: { requiresAuth: true, title: '首页', permission: 'dashboard:view', affix: true, keepAlive: true, cacheName: 'HomePage' },
 })
+
+const userStore = useUserStore()
+const canViewAnyStatistic = computed(() =>
+  [
+    'dashboard:statistics:paid-orders',
+    'dashboard:statistics:order-count',
+    'dashboard:statistics:sales-amount',
+    'dashboard:statistics:new-users',
+  ].some(permission => userStore.hasPermission(permission)),
+)
+
 const empty: DashboardOverview = {
   statistics: {
     paidOrders: 0,
@@ -74,9 +88,10 @@ const empty: DashboardOverview = {
   tradeReminders: [],
 }
 const overview = ref<DashboardOverview>(structuredClone(empty))
-const loading = ref(false),
-  errorMessage = ref(''),
-  range = ref<DashboardRange>('week')
+const loading = ref(false)
+const errorMessage = ref('')
+const range = ref<DashboardRange>('week')
+
 async function loadDashboard(next: DashboardRange) {
   range.value = next
   loading.value = true
@@ -91,10 +106,12 @@ async function loadDashboard(next: DashboardRange) {
     loading.value = false
   }
 }
+
 onMounted(() => {
   void loadDashboard(range.value)
 })
 </script>
+
 <style scoped>
 .dashboard-page {
   display: flex;
@@ -102,30 +119,32 @@ onMounted(() => {
   flex-direction: column;
   gap: 16px;
 }
+
 .statistics {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 14px;
 }
+
 .content {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: start;
   gap: 14px;
 }
+
 .error {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 @media (max-width: 1100px) {
-  .statistics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .content {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
 @media (max-width: 480px) {
   .statistics {
     gap: 8px;

@@ -5,7 +5,7 @@ type Status = 'enabled' | 'disabled'
 let roles = [
   { id: 1, name: '超级管理员', code: 'super_admin', description: '拥有系统全部管理权限', status: 'enabled' as Status, permissionCodes: ['*'], createdAt: '2026-11-01 10:00:00' },
   { id: 2, name: '运营人员', code: 'operator', description: '负责日常业务运营', status: 'enabled' as Status, permissionCodes: ['dashboard:view', 'user:list', 'user:detail', 'goods:list'], createdAt: '2026-11-02 11:30:00' },
-  { id: 3, name: '财务人员', code: 'finance', description: '负责财务数据查看', status: 'enabled' as Status, permissionCodes: ['dashboard:view', 'order:list', 'order:detail', 'order:export'], createdAt: '2026-11-03 09:20:00' },
+  { id: 3, name: '财务人员', code: 'finance', description: '负责财务数据查看', status: 'enabled' as Status, permissionCodes: ['dashboard:view', 'dashboard:statistics:paid-orders', 'dashboard:statistics:order-count', 'order:list', 'order:detail', 'order:export'], createdAt: '2026-11-03 09:20:00' },
   { id: 4, name: '访客', code: 'visitor', description: '只读访问', status: 'disabled' as Status, permissionCodes: ['dashboard:view'], createdAt: '2026-11-04 14:10:00' },
 ]
 
@@ -18,13 +18,17 @@ let menus = [
   { id: 6, parentId: 3, name: '用户管理', path: '/user/list', icon: 'i-ep:user', type: 'page' as const, permission: 'user:list', sort: 3, visible: true, status: 'enabled' as Status },
   { id: 7, parentId: 0, name: '系统管理', path: '/system', icon: 'i-ep:setting', type: 'directory' as const, permission: '', sort: 3, visible: true, status: 'enabled' as Status },
   { id: 8, parentId: 7, name: '系统设置', path: '/system/settings', icon: 'i-ep:setting', type: 'page' as const, permission: 'system:settings', sort: 1, visible: true, status: 'enabled' as Status },
-  { id: 9, parentId: 7, name: '角色管理', path: '/system/role', icon: 'i-ep:user-filled', type: 'page' as const, permission: 'role:list', sort: 2, visible: true, status: 'enabled' as Status },
+  { id: 9, parentId: 7, name: '角色管理', path: '/system/role', icon: 'i-ep:user', type: 'page' as const, permission: 'role:list', sort: 2, visible: true, status: 'enabled' as Status },
   { id: 10, parentId: 7, name: '菜单管理', path: '/system/menu', icon: 'i-ep:menu', type: 'page' as const, permission: 'menu:list', sort: 3, visible: true, status: 'enabled' as Status },
   { id: 11, parentId: 7, name: '权限管理', path: '/system/permission', icon: 'i-ep:lock', type: 'page' as const, permission: 'permission:list', sort: 4, visible: true, status: 'enabled' as Status },
 ]
 
 let permissions = [
-  ['仪表盘', 'dashboard:view', 'dashboard', 'view', 'GET', '/api/admin/dashboard/overview', '查看控制台数据'],
+  ['仪表盘', 'dashboard:view', 'dashboard', 'view', 'GET', '/api/admin/dashboard/overview', '查看控制台页面'],
+  ['查看支付订单统计', 'dashboard:statistics:paid-orders', 'dashboard', 'paid_orders', 'GET', '/api/admin/dashboard/overview', '查看支付订单统计卡片'],
+  ['查看订单量统计', 'dashboard:statistics:order-count', 'dashboard', 'order_count', 'GET', '/api/admin/dashboard/overview', '查看订单量统计卡片'],
+  ['查看销售额统计', 'dashboard:statistics:sales-amount', 'dashboard', 'sales_amount', 'GET', '/api/admin/dashboard/overview', '查看销售额统计卡片'],
+  ['查看新增用户统计', 'dashboard:statistics:new-users', 'dashboard', 'new_users', 'GET', '/api/admin/dashboard/overview', '查看新增用户统计卡片'],
   ['查看商品', 'goods:list', 'goods', 'list', 'GET', '/api/admin/goods', '查看商品列表'],
   ['查看订单', 'order:list', 'order', 'list', 'GET', '/api/admin/orders', '查看订单列表'],
   ['查看订单详情', 'order:detail', 'order', 'detail', 'GET', '/api/admin/orders/:id', '查看订单详情'],
@@ -41,6 +45,12 @@ let permissions = [
   ['删除菜单', 'menu:delete', 'menu', 'delete', 'DELETE', '/api/admin/menus/:id', '删除菜单'],
   ['查看权限', 'permission:list', 'permission', 'list', 'GET', '/api/admin/permissions', '查看权限目录'],
 ].map((item, index) => ({ id: index + 1, name: item[0], code: item[1], module: item[2], action: item[3], method: item[4], api: item[5], description: item[6], status: 'enabled' as Status }))
+
+// 登录 Mock 与角色管理共用这份角色权限数据，角色调整后下次登录立即生效。
+export const getMockRolePermissions = (roleCode: string): string[] => {
+  const role = roles.find(item => item.code === roleCode && item.status === 'enabled')
+  return role ? [...role.permissionCodes] : []
+}
 
 const ok = <T>(data: T, message = '操作成功') => ({ code: 200, message, data })
 const pageData = <T>(items: T[], query: Record<string, any>) => {
