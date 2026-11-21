@@ -106,7 +106,7 @@ function animateFooterValue() {
     return
   }
 
-  const numericValue = Number(match[1].replaceAll(',', ''))
+  const numericValue = Number(match[1].replace(/,/g, ''))
   footerSuffix.value = match[2]
   footerDecimals.value = (match[1].split('.')[1] || '').length
   footerFrame = runCountUp(
