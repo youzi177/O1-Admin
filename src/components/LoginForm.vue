@@ -77,8 +77,12 @@ const rules: FormRules = {
 // 提交表单
 const onSubmit = async () => {
   if (!formRef.value) return
+
+  // 仅清理用户名首尾空格；密码保持原样，避免改变合法密码。
+  form.username = form.username.trim()
   const valid = await formRef.value.validate().catch(() => false)
   if (!valid) return
+
   emit('submit', {
     username: form.username,
     password: form.password,
