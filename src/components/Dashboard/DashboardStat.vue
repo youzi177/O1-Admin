@@ -39,9 +39,7 @@ const numberFormatter = computed(
   () =>
     new Intl.NumberFormat(
       'zh-CN',
-      props.format === 'currency'
-        ? { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-        : {},
+      props.format === 'currency' ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : {},
     ),
 )
 
@@ -93,7 +91,12 @@ function runCountUp(
 }
 
 function animateValue() {
-  valueFrame = runCountUp(props.value, (value) => (animatedValue.value = value), valueFrame, props.format === 'currency' ? 2 : 0)
+  valueFrame = runCountUp(
+    props.value,
+    (value) => (animatedValue.value = value),
+    valueFrame,
+    props.format === 'currency' ? 2 : 0,
+  )
 }
 
 function animateFooterValue() {
@@ -106,9 +109,14 @@ function animateFooterValue() {
     return
   }
 
-  const numericValue = Number(match[1].replace(/,/g, ''))
-  footerSuffix.value = match[2]
-  footerDecimals.value = (match[1].split('.')[1] || '').length
+  // 明确处理可能为 undefined 的情况
+  const numericPart = match[1] ?? ''
+  const suffix = match[2] ?? ''
+
+  const numericValue = Number(numericPart.replace(/,/g, ''))
+  footerSuffix.value = suffix
+  footerDecimals.value = (numericPart.split('.')[1] || '').length
+
   footerFrame = runCountUp(
     numericValue,
     (value) => (animatedFooterValue.value = value),
