@@ -26,7 +26,7 @@
 <script lang="ts" setup>
 import { getPermissions } from '@/api/system'
 import type { SystemPermission } from '@/types/api/system'
-definePage({ name: 'system-permission', meta: { requiresAuth: true, title: '权限管理', keepAlive: true } })
+definePage({ name: 'system-permission', meta: { requiresAuth: true, title: '权限管理', permission: 'permission:list', keepAlive: true } })
 const rows = ref<SystemPermission[]>([])
 const loading = ref(false), total = ref(0)
 const filters = reactive({ page: 1, pageSize: 10, keyword: '', status: '' })
