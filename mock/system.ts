@@ -5,7 +5,7 @@ type Status = 'enabled' | 'disabled'
 let roles = [
   { id: 1, name: '超级管理员', code: 'super_admin', description: '拥有系统全部管理权限', status: 'enabled' as Status, permissionCodes: ['*'], createdAt: '2026-11-01 10:00:00' },
   { id: 2, name: '运营人员', code: 'operator', description: '负责日常业务运营', status: 'enabled' as Status, permissionCodes: ['dashboard:view', 'user:list', 'user:detail', 'goods:list'], createdAt: '2026-11-02 11:30:00' },
-  { id: 3, name: '财务人员', code: 'finance', description: '负责财务数据查看', status: 'enabled' as Status, permissionCodes: ['dashboard:view', 'order:list', 'order:detail'], createdAt: '2026-11-03 09:20:00' },
+  { id: 3, name: '财务人员', code: 'finance', description: '负责财务数据查看', status: 'enabled' as Status, permissionCodes: ['dashboard:view', 'order:list', 'order:detail', 'order:export'], createdAt: '2026-11-03 09:20:00' },
   { id: 4, name: '访客', code: 'visitor', description: '只读访问', status: 'disabled' as Status, permissionCodes: ['dashboard:view'], createdAt: '2026-11-04 14:10:00' },
 ]
 
@@ -27,6 +27,8 @@ let permissions = [
   ['仪表盘', 'dashboard:view', 'dashboard', 'view', 'GET', '/api/admin/dashboard/overview', '查看控制台数据'],
   ['查看商品', 'goods:list', 'goods', 'list', 'GET', '/api/admin/goods', '查看商品列表'],
   ['查看订单', 'order:list', 'order', 'list', 'GET', '/api/admin/orders', '查看订单列表'],
+  ['查看订单详情', 'order:detail', 'order', 'detail', 'GET', '/api/admin/orders/:id', '查看订单详情'],
+  ['导出订单', 'order:export', 'order', 'export', 'POST', '/api/admin/orders/export', '导出订单数据'],
   ['查看用户', 'user:list', 'user', 'list', 'GET', '/api/admin/users', '查看用户列表'],
   ['查看用户详情', 'user:detail', 'user', 'detail', 'GET', '/api/admin/users/:id', '查看用户详情'],
   ['查看角色', 'role:list', 'role', 'list', 'GET', '/api/admin/roles', '查看角色列表'],

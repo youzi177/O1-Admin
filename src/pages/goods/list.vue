@@ -12,6 +12,7 @@ definePage({
   meta: {
     requiresAuth: true,
     title: '商品管理',
+    permission: 'goods:list',
     keepAlive: true,
     cacheName: 'GoodsListPage',
   },

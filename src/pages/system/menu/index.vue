@@ -32,7 +32,7 @@
 import { createMenu, deleteMenu, getMenus, updateMenu } from '@/api/system'
 import type { SystemMenu } from '@/types/api/system'
 import type { FormInstance, FormRules } from 'element-plus'
-definePage({ name: 'system-menu', meta: { requiresAuth: true, title: '菜单管理', keepAlive: true } })
+definePage({ name: 'system-menu', meta: { requiresAuth: true, title: '菜单管理', permission: 'menu:list', keepAlive: true } })
 const menus = ref<SystemMenu[]>([])
 const loading = ref(false), saving = ref(false), dialogVisible = ref(false), editing = ref(false)
 const formRef = ref<FormInstance>()
