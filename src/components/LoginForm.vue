@@ -45,6 +45,7 @@
       </el-form-item>
     </el-form>
 
+    <div class="demo-accounts">演示账号：管理员 admin / 123456　财务 finance / 123456</div>
     <div class="login-footer">© 2026 O1 Admin. All rights reserved.</div>
   </div>
 </template>
@@ -155,6 +156,8 @@ const onSubmit = async () => {
   --el-button-disabled-border-color: var(--o1-color-primary);
   --el-button-disabled-text-color: #fff;
 }
+
+.demo-accounts { margin-top: 18px; color: var(--o1-text-secondary); font-size: 12px; text-align: center; line-height: 1.8; }
 
 .login-footer {
   margin-top: 48px;
