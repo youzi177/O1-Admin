@@ -8,9 +8,12 @@ export interface TabItem {
   cacheName?: string
 }
 
-const STORAGE_KEY = 'o1-visited-tabs'
+const STORAGE_KEY_PREFIX = 'o1-visited-tabs'
 
 export function useListTab() {
+  const userStore = useUserStore()
+  // 标签页按用户 ID 隔离，同一用户重新登录仍可恢复自己的标签
+  const storageKey = `${STORAGE_KEY_PREFIX}:${userStore.userInfo.id}`
   const route = useRoute()
   const router = useRouter()
 
@@ -30,7 +33,7 @@ export function useListTab() {
   // 恢复本地保存的标签；缓存配置始终以当前路由配置为准
   const restoreTabs = (): TabItem[] => {
     try {
-      const saved: unknown = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+      const saved: unknown = JSON.parse(localStorage.getItem(storageKey) || '[]')
 
       if (!Array.isArray(saved)) return []
 
@@ -63,7 +66,7 @@ export function useListTab() {
     tabs,
     (value) => {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(value))
+        localStorage.setItem(storageKey, JSON.stringify(value))
       } catch {
         // 本地存储不可用时，不影响标签页正常使用
       }
